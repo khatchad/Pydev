@@ -6,9 +6,6 @@
  */
 package org.python.pydev.parser.grammarcommon;
 
-import java.io.IOException;
-
-import org.python.pydev.parser.jython.FastCharStream;
 import org.python.pydev.parser.jython.Token;
 import org.python.pydev.shared_core.utils.Reflection;
 
@@ -51,51 +48,48 @@ public abstract class AbstractGrammarWalkHelpers {
      * the effect we'd usually expect -- which is finding new lines and indent tokens)
      */
     protected static Token nextTokenConsideringNewLine(ITokenManager tokenManager) {
-        boolean foundNewLine = searchNewLine(tokenManager, true);
-        if (foundNewLine) {
-            tokenManager.indenting(0);
-        }
+        //        boolean foundNewLine = searchNewLine(tokenManager, true);
+        //        if (foundNewLine) {
+        //        }
         final Token nextToken = tokenManager.getNextToken();
         return nextToken;
     }
 
-    /**
-     * Searches for a new line in the input stream. If found, it'll stop right after it, otherwise, the stream will be
-     * backed up the number of chars that've been read.
-     */
-    protected static boolean searchNewLine(ITokenManager tokenManager, boolean breakOnFirstNotWhitespace) {
-        boolean foundNewLine = false;
-        FastCharStream inputStream = tokenManager.getInputStream();
-        int currentPos = inputStream.getCurrentPos();
-
-        try {
-            while (true) {
-                try {
-                    char c = inputStream.readChar();
-                    if (c == '\r' || c == '\n') {
-                        if (c == '\r') {
-                            c = inputStream.readChar();
-                            if (c != '\n') {
-                                inputStream.backup(1);
-                            }
-                        }
-                        foundNewLine = true;
-                        break;
-                    }
-                    if (breakOnFirstNotWhitespace && !Character.isWhitespace(c)) {
-                        break;
-                    }
-                } catch (IOException e) {
-                    break;
-                }
-            }
-        } finally {
-            if (!foundNewLine) {
-                inputStream.restorePos(currentPos);
-            }
-        }
-        return foundNewLine;
-    }
+    //    /**
+    //     * Searches for a new line in the input stream. If found, it'll stop right after it, otherwise, the stream will be
+    //     * backed up the number of chars that've been read.
+    //     */
+    //    protected static boolean searchNewLine(ITokenManager tokenManager, boolean breakOnFirstNotWhitespace) {
+    //        boolean foundNewLine = false;
+    //        FastCharStream inputStream = tokenManager.getInputStream();
+    //        int currentPos = inputStream.getCurrentPos();
+    //
+    //        try {
+    //            while (true) {
+    //                try {
+    //                    char c = inputStream.readChar();
+    //                    if (c == '\r' || c == '\n') {
+    //                        if (c == '\r') {
+    //                            c = inputStream.readChar();
+    //                            if (c != '\n') {
+    //                                inputStream.backup(1);
+    //                            }
+    //                        }
+    //                        foundNewLine = true;
+    //                        break;
+    //                    }
+    //                    if (breakOnFirstNotWhitespace && !Character.isWhitespace(c)) {
+    //                        break;
+    //                    }
+    //                } catch (IOException e) {
+    //                    break;
+    //                }
+    //            }
+    //        } finally {
+    //            inputStream.restorePos(currentPos);
+    //        }
+    //        return foundNewLine;
+    //    }
 
     /**
      * @see TokensIterator#TokensIterator(AbstractTokenManager, Token, int, boolean)

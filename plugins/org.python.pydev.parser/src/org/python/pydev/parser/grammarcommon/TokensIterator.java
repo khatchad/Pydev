@@ -56,6 +56,11 @@ final class TokensIterator implements Iterator<Token> {
         contextsToBreak.add(tokenManager.getClassId());
         contextsToBreak.add(tokenManager.getAtId());
 
+        contextsToBreak.add(tokenManager.getNewline1Id());
+        contextsToBreak.add(tokenManager.getNewlineId());
+        contextsToBreak.add(tokenManager.getNewline2Id());
+        contextsToBreak.add(tokenManager.getCrlf1Id());
+
         reset(tokenManager, firstIterationToken, tokensToIterate, breakOnIndentsDedentsAndNewCompounds);
     }
 
